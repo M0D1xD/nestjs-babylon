@@ -6,8 +6,6 @@ import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
 import { join } from "path";
 import { readFileSync } from "fs";
 
-
-
 BABYLON.Tools.GetAbsoluteUrl = (url): string => {
   Logger.log(`GetAbsoluteURL`, url)
   return url;
@@ -19,23 +17,28 @@ export class AppService implements OnModuleInit {
   private engine_: BABYLON.NullEngine;
   private scene_: BABYLON.Scene;
   async upload(file: Express.Multer.File) {
+    Logger.log(JSON.stringify(file))
     let base64_model_content = this.readFileBase64(file);
-    BABYLON.SceneLoader.Append(
-      "",
-      base64_model_content,
-      this.scene_,
-      undefined,
-      undefined,
-      undefined,
-      ".glb"
-    );
+    try {
+      BABYLON.SceneLoader.Append(
+        "",
+        base64_model_content,
+        this.scene_,
+        undefined,
+        undefined,
+        undefined,
+        ".glb"
+      );
+    } catch (e) {
+      throw e;
+    }
 
     return;
   }
 
   async testLocal() {
     let base64_model_content = this.readFileBase64(null);
-    BABYLON.SceneLoader.Append(
+    return BABYLON.SceneLoader.Append(
       "",
       base64_model_content,
       this.scene_,
@@ -45,15 +48,15 @@ export class AppService implements OnModuleInit {
       ".glb"
     );
 
-    return;
   }
 
 
   async testImportAsync() {
-    await this.loadModel();
+    const meshes = await this.loadModel();
+    return meshes;
   }
 
-  
+
   private readFileBase64(file: Express.Multer.File | null) {
     let modelPath = 'public/uploads/models/model.glb';
     if (file) {
@@ -64,7 +67,7 @@ export class AppService implements OnModuleInit {
       encoding: "base64",
     });
 
-    return `data:;base64,${fileData.toString()}`
+    return `data:model/gltf-binary;base64,${fileData.toString()}`
   }
 
   // Initialize Engine / scene on start
@@ -81,7 +84,7 @@ export class AppService implements OnModuleInit {
       const { meshes } = await BABYLON.SceneLoader.ImportMeshAsync('', 'http://localhost:4000/uploads/models/', 'model.glb', this.scene_, undefined, '.glb');
       return meshes;
     } catch (e) {
-      Logger.error(e)
+      throw e;
     }
   }
 }
