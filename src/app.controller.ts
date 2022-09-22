@@ -10,7 +10,18 @@ global.XMLHttpRequest = require("xhr2").XMLHttpRequest;
 export class AppController {
   constructor(private readonly appService: AppService) { }
 
-  @Post()
+
+  @Get('test-local')
+  async testLocalFile() {
+    return this.appService.testLocal();
+  }
+
+  @Get('test-import-async')
+  async testImport() {
+    return this.appService.testImportAsync();
+  }
+
+  @Post('')
   @UseInterceptors(
     FileInterceptor("model", {
       ...storage("models"),
@@ -24,13 +35,4 @@ export class AppController {
     return this.appService.upload(file);
   }
 
-  @Get('test-local')
-  async testLocalFile() {
-    return this.appService.testLocal();
-  }
-
-  @Get('test-import-async')
-  async testImport() {
-    return this.appService.testImportAsync();
-  }
 }
