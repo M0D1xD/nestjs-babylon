@@ -1487,6 +1487,14 @@ babylonjs-loaders@^5.25.0:
     babylonjs "^5.25.0"
     babylonjs-gltf2interface "^5.25.0"
 
+babylonjs-serializers@^5.25.0:
+  version "5.25.0"
+  resolved "https://registry.yarnpkg.com/babylonjs-serializers/-/babylonjs-serializers-5.25.0.tgz#612b755a38d45290d3451125cfb9714fde0640d8"
+  integrity sha512-oMWsouPh/Cft6hMsA84jY0hEo+WUkpIkWigi+c82CaP7C60pXBsTcC52TV1Mc5SSuNeMVsMUNHSyNOAhYP3Lrw==
+  dependencies:
+    babylonjs "^5.25.0"
+    babylonjs-gltf2interface "^5.25.0"
+
 babylonjs@^5.25.0:
   version "5.25.0"
   resolved "https://registry.yarnpkg.com/babylonjs/-/babylonjs-5.25.0.tgz#3003d1be28c966711a0a2fd61786b672980296cd"
